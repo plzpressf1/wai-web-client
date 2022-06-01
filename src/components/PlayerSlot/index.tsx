@@ -1,9 +1,10 @@
 import { Player } from "interfaces/Player";
-import styles from "./styles.module.scss";
 import { lobbyWs } from "api";
-import { Editable } from "../Editable";
 import { getUser, updateUser } from "ls";
+import { Editable } from "../Editable";
+import { PlayerImage } from "../PlayerImage";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
+import styles from "./styles.module.scss";
 
 interface PlayerSlotProps {
     player: Player;
@@ -26,7 +27,9 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
 
     const onChangePicture = () => {
         const value = prompt("Полный url картинки (https://*.*/***/image.jpg)");
-        lobbyWs.emit("player/change", { id: player.id, field: "picture", value });
+        if (value !== null) {
+            lobbyWs.emit("player/change", { id: player.id, field: "picture", value });
+        }
     };
 
     return (
@@ -50,12 +53,11 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
             </span>
             <span className={secretStyles.join(" ")}>
                 {
-                    !me && <>
+                    !me &&
                         <Editable
                             value={secret}
                             onUpdate={(value) => onUpdate("secret", value)}
                         />
-                    </>
                 }
             </span>
             <div className={styles.image}>
