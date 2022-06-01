@@ -59,16 +59,7 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
                 }
             </span>
             <div className={styles.image}>
-                {
-                    !me && <>
-                        {player.picture &&
-                            <img src={player.picture}
-                                 alt="подсказка"
-                                //onClick={}
-                            />
-                        }
-                    </>
-                }
+                {!me && <PlayerImage picture={player.picture}/>}
             </div>
         </div>
     );
