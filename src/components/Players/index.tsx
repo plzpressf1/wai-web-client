@@ -1,9 +1,10 @@
 import React from "react";
+import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
 import { Player } from "interfaces/Player";
 import { Editable } from "../Editable";
+import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import styles from "./styles.module.scss";
-import { lobbyWs } from "api";
 
 interface PlayerSlotProps {
     player: Player;
@@ -23,11 +24,16 @@ const PlayerSlot = ({ player, me }: PlayerSlotProps) => {
         lobbyWs.emit("player/change", { id: player.id, field, value });
     };
 
+    const onChangePicture = () => {
+        const value = prompt("Полный url картинки (https://*.*/***/image.jpg)");
+        lobbyWs.emit("player/change", { id: player.id, field: "picture", value });
+    };
+
     return (
         <div className={styles.slot}>
             <span className={nameStyles.join(" ")}>
-                {
-                    me ? <Editable
+            {
+                me ? <Editable
                         value={name}
                         onUpdate={(value) => {
                             const user = getUser();
@@ -36,18 +42,34 @@ const PlayerSlot = ({ player, me }: PlayerSlotProps) => {
                             onUpdate("name", value)
                         }}
                     /> :
-                        name
-                }
+                    <div className={styles.nameDetail}>
+                        <PictureSvg onClick={onChangePicture}/>
+                        <span>{name}</span>
+                    </div>
+            }
             </span>
-            <span className={secretStyles.join(" ")}>
+                <span className={secretStyles.join(" ")}>
                 {
-                    !me && <Editable
-                        value={secret}
-                        onUpdate={(value) => onUpdate("secret", value)}
-                    />
+                    !me && <>
+                        <Editable
+                            value={secret}
+                            onUpdate={(value) => onUpdate("secret", value)}
+                        />
+                    </>
                 }
             </span>
-            <div className={styles.image}></div>
+            <div className={styles.image}>
+            {
+                !me && <>
+                    {player.picture &&
+                        <img src={player.picture}
+                             alt="подсказка"
+                             //onClick={}
+                        />
+                    }
+                </>
+            }
+            </div>
         </div>
     );
 };
