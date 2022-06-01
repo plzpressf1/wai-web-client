@@ -16,7 +16,9 @@ const PlayerSlot = ({ player, me }: PlayerSlotProps) => {
 
     return (
         <div className={styles.slot}>
-            <span className={nameStyles.join(" ")}><Editable name={name}/></span>
+            <span className={nameStyles.join(" ")}>
+                {me ? <Editable name={name}/> : name}
+            </span>
             <div className={styles.image}></div>
         </div>
     );

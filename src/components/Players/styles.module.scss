@@ -26,10 +26,9 @@
 }
 
 .name {
-    height: 34px;
-    margin-top: 5px;
-    padding: 3px;
-    font-size: 18px;
+    margin: 10px 0;
+    font-size: 20px;
+    font-weight: bold;
 
     &.editable {
         cursor: pointer;

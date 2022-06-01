@@ -1,3 +1,7 @@
 .editable {
     padding: 4px;
+
+    &.hidden {
+        display: none;
+    }
 }
