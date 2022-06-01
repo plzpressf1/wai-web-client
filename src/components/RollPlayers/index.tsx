@@ -7,7 +7,10 @@ export const RollPlayers = () => {
         <div className={styles.wrapper}>
             <DiceSvg
                 className={styles.button}
-                onClick={() => lobbyWs.emit("player/roll")}
+                onClick={() => {
+                    console.log("player/roll");
+                    lobbyWs.emit("player/roll");
+                }}
             />
         </div>
     );
