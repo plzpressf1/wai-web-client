@@ -1,5 +1,39 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
+
+interface EditableInputProps {
+    text: string;
+    shutDown: (text: string | void) => void;
+}
+
+const EditableInput = ({ text, shutDown }: EditableInputProps) => {
+    const ref = useRef<HTMLInputElement>(null);
+    useEffect(() => {
+        if (ref.current) {
+            ref.current.value = text;
+            ref.current.focus();
+            ref.current.select();
+        }
+    }, [text]);
+
+    const onKeyUp = (key: string) => {
+        if (key === "Enter") {
+            shutDown(ref.current?.value);
+        }
+        if (key === "Escape") {
+            shutDown();
+        }
+    };
+
+    return (
+        <input
+            ref={ref}
+            type="text"
+            onKeyUp={(e) => onKeyUp(e.key)}
+            onBlur={() => shutDown()}
+        />
+    );
+};
 
 interface EditableProps {
     value: string;
@@ -8,49 +42,26 @@ interface EditableProps {
 
 export const Editable = ({ value, onUpdate }: EditableProps) => {
     const [edit, setEdit] = useState(false);
-    const ref = useRef<HTMLInputElement>(null);
 
-    const onKeyUp = (key: string) => {
-        if (key === "Enter") {
-            setEdit(false);
-            if (ref.current) {
-                onUpdate(ref.current.value);
-            }
+    const onInputShutDown = (text: string | void) => {
+        if (text) {
+            onUpdate(text);
         }
-        if (key === "Escape") {
-            setEdit(false);
-        }
+        setEdit(false);
     };
 
-    const onClick = () => {
-        if (ref.current) {
-            ref.current.value = value;
-        }
-        setEdit(true);
-    };
-
-    const inputClasses = [styles.editable];
-    const spanClasses = [styles.editable];
     if (edit) {
-        spanClasses.push(styles.hidden);
-    }
-    else {
-        inputClasses.push(styles.hidden);
+        return <EditableInput
+            text={value}
+            shutDown={onInputShutDown}
+        />;
     }
     return (
-        <>
-            <input
-                className={inputClasses.join(" ")}
-                type="text"
-                ref={ref}
-                onKeyUp={(e) => onKeyUp(e.key)}
-            />
-            <span
-                className={spanClasses.join(" ")}
-                onClick={() => onClick()}
-            >
-                {value}
-            </span>
-        </>
+        <span
+            className={styles.editable}
+            onClick={() => setEdit(true)}
+        >
+            {value}
+        </span>
     );
 };
