@@ -1,8 +1,9 @@
 import React from "react";
-import { getUser } from "ls";
+import { getUser, updateUser } from "ls";
 import { Player } from "interfaces/Player";
 import { Editable } from "../Editable";
 import styles from "./styles.module.scss";
+import { lobbyWs } from "api";
 
 interface PlayerSlotProps {
     player: Player;
@@ -14,10 +15,37 @@ const PlayerSlot = ({ player, me }: PlayerSlotProps) => {
     const nameStyles = [styles.name];
     if (me) nameStyles.push(styles.editable);
 
+    const secret = player.secret ? player.secret : "[Кто он/она?]";
+    const secretStyles = [styles.secret];
+    if (!me) secretStyles.push(styles.editable);
+
+    const onUpdate = (field: string, value: string) => {
+        lobbyWs.emit("player/change", { id: player.id, field, value });
+    };
+
     return (
         <div className={styles.slot}>
             <span className={nameStyles.join(" ")}>
-                {me ? <Editable name={name}/> : name}
+                {
+                    me ? <Editable
+                        value={name}
+                        onUpdate={(value) => {
+                            const user = getUser();
+                            user.name = value;
+                            updateUser(user);
+                            onUpdate("name", value)
+                        }}
+                    /> :
+                        name
+                }
+            </span>
+            <span className={secretStyles.join(" ")}>
+                {
+                    !me && <Editable
+                        value={secret}
+                        onUpdate={(value) => onUpdate("secret", value)}
+                    />
+                }
             </span>
             <div className={styles.image}></div>
         </div>

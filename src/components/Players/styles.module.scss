@@ -26,9 +26,17 @@
 }
 
 .name {
-    margin: 10px 0;
+    margin: 7px 0;
     font-size: 20px;
     font-weight: bold;
+
+    &.editable {
+        cursor: pointer;
+    }
+}
+
+.secret {
+    font-size: 16px;
 
     &.editable {
         cursor: pointer;

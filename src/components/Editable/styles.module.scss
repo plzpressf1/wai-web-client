@@ -1,4 +1,6 @@
 .editable {
+    display: flex;
+    text-align: center;
     padding: 4px;
 
     &.hidden {

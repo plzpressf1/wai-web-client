@@ -1,9 +1,12 @@
 import { useRef, useState } from "react";
-import { lobbyWs } from "api";
-import { getUser } from "ls";
 import styles from "./styles.module.scss";
 
-export const Editable = ({ name } : { name: string }) => {
+interface EditableProps {
+    value: string;
+    onUpdate: (value: string) => void;
+}
+
+export const Editable = ({ value, onUpdate }: EditableProps) => {
     const [edit, setEdit] = useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
@@ -11,11 +14,7 @@ export const Editable = ({ name } : { name: string }) => {
         if (key === "Enter") {
             setEdit(false);
             if (ref.current) {
-                lobbyWs.emit("player/change", {
-                    id: getUser().id,
-                    field: "name",
-                    value: ref.current.value,
-                })
+                onUpdate(ref.current.value);
             }
         }
         if (key === "Escape") {
@@ -25,7 +24,7 @@ export const Editable = ({ name } : { name: string }) => {
 
     const onClick = () => {
         if (ref.current) {
-            ref.current.value = name;
+            ref.current.value = value;
         }
         setEdit(true);
     };
@@ -50,7 +49,7 @@ export const Editable = ({ name } : { name: string }) => {
                 className={spanClasses.join(" ")}
                 onClick={() => onClick()}
             >
-                {name}
+                {value}
             </span>
         </>
     );
