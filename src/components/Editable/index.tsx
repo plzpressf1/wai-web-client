@@ -11,7 +11,11 @@ export const Editable = ({ name } : { name: string }) => {
         if (key === "Enter") {
             setEdit(false);
             if (ref.current) {
-                lobbyWs.emit("player/name", { id: getUser().id, name: ref.current.value })
+                lobbyWs.emit("player/change", {
+                    id: getUser().id,
+                    field: "name",
+                    value: ref.current.value,
+                })
             }
         }
         if (key === "Escape") {
@@ -26,25 +30,28 @@ export const Editable = ({ name } : { name: string }) => {
         setEdit(true);
     };
 
+    const inputClasses = [styles.editable];
+    const spanClasses = [styles.editable];
     if (edit) {
-        return (
+        spanClasses.push(styles.hidden);
+    }
+    else {
+        inputClasses.push(styles.hidden);
+    }
+    return (
+        <>
             <input
-                className={styles.editable}
+                className={inputClasses.join(" ")}
                 type="text"
                 ref={ref}
                 onKeyUp={(e) => onKeyUp(e.key)}
             />
-        );
-    }
-    else {
-        return (
             <span
-                className={styles.editable}
+                className={spanClasses.join(" ")}
                 onClick={() => onClick()}
             >
                 {name}
             </span>
-        );
-
-    }
+        </>
+    );
 };
