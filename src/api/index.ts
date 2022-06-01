@@ -5,6 +5,7 @@ export let lobbyWs: Socket;
 
 export const openLobbyWs = (user: User) => {
     if (process.env.REACT_APP_WS_URL) {
+        console.log("opening socket...");
         lobbyWs = openSocket(process.env.REACT_APP_WS_URL, {
             path: "/game",
             query: { id: user.id, name: user.name }
