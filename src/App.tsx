@@ -3,6 +3,7 @@ import { Player } from "./interfaces/Player";
 import { lobbyWs, openLobbyWs } from "./api";
 import { getUser, updateUser } from "./ls";
 import { Players } from "./components/Players";
+import { RollPlayers } from "./components/RollPlayers";
 import "./global.scss";
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
 
     return (
         <>
-            <header></header>
+            <header>
+                <RollPlayers/>
+            </header>
             <main>
                 <Players players={players}/>
             </main>
