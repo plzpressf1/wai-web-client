@@ -1,0 +1,30 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg {
+    width: 75%;
+    cursor: pointer;
+    fill: #4b4b4b;
+}
+
+.memo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    textarea {
+        padding: 5px;
+        z-index: 9999;
+        background-color: #303841;
+        color: #bfc5d0;
+        font-size: 1.5rem;
+    }
+}

@@ -3,6 +3,7 @@ import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
 import { Editable } from "../Editable";
 import { PlayerImage } from "../PlayerImage";
+import { Notes } from "../Notes";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import styles from "./styles.module.scss";
 
@@ -61,7 +62,10 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
                 }
             </span>
             <div className={styles.image}>
-                {!me && <PlayerImage picture={player.picture}/>}
+                {
+                    me ? <Notes/>
+                        : <PlayerImage picture={player.picture}/>
+                }
             </div>
         </div>
     );
