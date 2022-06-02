@@ -1,6 +1,6 @@
 import { lobbyWs } from "api";
-import styles from "./styles.module.scss";
 import { ReactComponent as DiceSvg } from "svg/dices.svg";
+import styles from "./styles.module.scss";
 
 export const RollPlayers = () => {
     return (
