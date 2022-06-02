@@ -64,12 +64,15 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
             }
             </span>
             <span className={secretStyles.join(" ")}>
-                {!me &&
-                    <Editable
-                        value={secret}
-                        onUpdate={(value) => onUpdate("secret", value)}
-                    />
-                }
+                {!me && <>
+                    {player.connected
+                        ? <Editable
+                            value={secret}
+                            onUpdate={(value) => onUpdate("secret", value)}
+                        />
+                        : <span>не в сети</span>
+                    }
+                </>}
             </span>
             <div className={styles.image}>
                 {me
