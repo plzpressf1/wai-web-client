@@ -7,6 +7,11 @@
     height: 310px;
     border: 2px solid wheat;
     border-radius: 10px;
+
+    &.disconnected {
+        border: 2px solid #858077;
+        color: #858077;
+    }
 }
 
 .image {

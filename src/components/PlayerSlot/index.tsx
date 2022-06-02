@@ -5,6 +5,7 @@ import { Editable } from "../Editable";
 import { PlayerImage } from "../PlayerImage";
 import { Notes } from "../Notes";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
+import { ReactComponent as KickSvg } from "svg/kick.svg";
 import styles from "./styles.module.scss";
 
 interface PlayerSlotProps {
@@ -13,6 +14,9 @@ interface PlayerSlotProps {
 
 export const PlayerSlot = ({ player }: PlayerSlotProps) => {
     const me = getUser().id === player.id;
+
+    const slotStyles = [styles.slot];
+    if (!me && !player.connected) slotStyles.push(styles.disconnected);
 
     const name = player.name ? player.name : "[Имя не задано]";
     const nameStyles = [styles.name];
@@ -33,38 +37,44 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
         }
     };
 
+    const onKickPlayer = () => {
+        lobbyWs.emit("player/kick", { id: player.id });
+    };
+
     return (
-        <div className={styles.slot}>
+        <div className={slotStyles.join(" ")}>
             <span className={nameStyles.join(" ")}>
-            {
-                me ? <Editable
-                        value={name}
-                        onUpdate={(value) => {
-                            const user = getUser();
-                            user.name = value;
-                            updateUser(user);
-                            onUpdate("name", value)
-                        }}
-                    /> :
-                    <div className={styles.nameDetail}>
-                        <PictureSvg onClick={onChangePicture}/>
-                        <span>{name}</span>
-                    </div>
+            {me
+                ? <Editable
+                    value={name}
+                    onUpdate={(value) => {
+                        const user = getUser();
+                        user.name = value;
+                        updateUser(user);
+                        onUpdate("name", value)
+                    }}
+                />
+                : <div className={styles.nameDetail}>
+                    {player.connected
+                        ? <PictureSvg onClick={onChangePicture}/>
+                        : <KickSvg onClick={onKickPlayer}/>
+                    }
+                    <span>{name}</span>
+                </div>
             }
             </span>
             <span className={secretStyles.join(" ")}>
-                {
-                    !me &&
-                        <Editable
-                            value={secret}
-                            onUpdate={(value) => onUpdate("secret", value)}
-                        />
+                {!me &&
+                    <Editable
+                        value={secret}
+                        onUpdate={(value) => onUpdate("secret", value)}
+                    />
                 }
             </span>
             <div className={styles.image}>
-                {
-                    me ? <Notes/>
-                        : <PlayerImage picture={player.picture}/>
+                {me
+                    ? <Notes/>
+                    : <PlayerImage player={player}/>
                 }
             </div>
         </div>

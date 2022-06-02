@@ -1,3 +1,13 @@
 .wrapper {
     display: contents;
 }
+
+.disconnected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        cursor: auto;
+    }
+}
