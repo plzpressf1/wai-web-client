@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTransition, animated } from "react-spring";
 import { Player } from "interfaces/Player";
 import { PlayerSlot } from "../PlayerSlot";
+import { Notes } from "../Notes";
 import styles from "./styles.module.scss";
 
 interface PlayersProps {
@@ -9,6 +10,8 @@ interface PlayersProps {
 }
 
 export const Players = ({ players }: PlayersProps) => {
+    const [editingNotes, setEditingNotes] = useState(false);
+
     const width = 220;
     const gap = 20;
     const totalWidth = players.length * 220 + (players.length - 1) * gap;
@@ -25,6 +28,7 @@ export const Players = ({ players }: PlayersProps) => {
 
     return (
         <div className={styles.wrapper}>
+            {editingNotes && <Notes shutDown={() => setEditingNotes(false)}/>}
             <div className={styles.players}>
                 {transitions((style, player) =>
                     <animated.div
@@ -36,6 +40,8 @@ export const Players = ({ players }: PlayersProps) => {
                         <PlayerSlot
                             key={player.id}
                             player={player}
+                            editingNotes={editingNotes}
+                            setEditingNotes={setEditingNotes}
                         />
                     </animated.div>
                 )}

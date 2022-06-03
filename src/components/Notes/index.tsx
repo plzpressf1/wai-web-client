@@ -1,13 +1,12 @@
-import { useEffect, useRef, useState, MouseEvent } from "react";
+import { useEffect, useRef, MouseEvent } from "react";
 import debounce from "../utils/debounce";
 import { getMemo, PosSize, updateMemo } from "ls";
-import { ReactComponent as MemoSvg } from "svg/notes.svg";
 import styles from "./styles.module.scss";
 
 const numberToPixels = (num: number) => num === 0 ? "0" : `${num}px`;
 const pixelsToNumber = (px: string) => parseInt(px);
 
-const Memo = ({ shutDown }: { shutDown: () => void }) => {
+export const Notes = ({ shutDown }: { shutDown: () => void }) => {
     const headerHeight = 30;
     const headerRef = useRef<HTMLDivElement>(null);
     const memoRef = useRef<HTMLTextAreaElement>(null);
@@ -130,19 +129,6 @@ const Memo = ({ shutDown }: { shutDown: () => void }) => {
                 onChange={() => memoDebounce()}
                 onKeyUp={(e) => onKeyUp(e.key)}
             />
-        </div>
-    );
-};
-
-export const Notes = () => {
-    const [active, setActive] = useState(false);
-
-    return (
-        <div className={styles.wrapper}>
-            {active
-                ? <Memo shutDown={() => setActive(false)} />
-                : <MemoSvg onClick={() => setActive(true)} />
-            }
         </div>
     );
 };

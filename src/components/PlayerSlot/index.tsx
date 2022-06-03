@@ -3,16 +3,18 @@ import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
 import { Editable } from "../Editable";
 import { PlayerImage } from "../PlayerImage";
-import { Notes } from "../Notes";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import { ReactComponent as KickSvg } from "svg/kick.svg";
 import styles from "./styles.module.scss";
+import { ReactComponent as MemoSvg } from "svg/notes.svg";
 
 interface PlayerSlotProps {
     player: Player;
+    editingNotes: boolean;
+    setEditingNotes: (v: boolean) => void;
 }
 
-export const PlayerSlot = ({ player }: PlayerSlotProps) => {
+export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
     const me = getUser().id === player.id;
 
     const slotStyles = [styles.slot];
@@ -76,7 +78,9 @@ export const PlayerSlot = ({ player }: PlayerSlotProps) => {
             </span>
             <div className={styles.image}>
                 {me
-                    ? <Notes/>
+                    ? <div className={styles.notes}>
+                        {!editingNotes && <MemoSvg onClick={() => setEditingNotes(true)} />}
+                    </div>
                     : <PlayerImage player={player}/>
                 }
             </div>
