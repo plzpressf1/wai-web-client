@@ -106,7 +106,6 @@ const Memo = ({ shutDown }: { shutDown: () => void }) => {
             shiftX = e.clientX - headerRef.current.getBoundingClientRect().x;
             shiftY = e.clientY - headerRef.current.getBoundingClientRect().y;
             shiftY = headerHeight - shiftY;
-            console.log(shiftY);
         }
     };
 
