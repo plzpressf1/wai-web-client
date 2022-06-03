@@ -18,9 +18,9 @@ export const Players = ({ players }: PlayersProps) => {
     const transitions = useTransition(
         players.map((player, i) => ({ ...player, x: i * width + i * gap - totalWidth / 2 })),
         {
-            from: { position: "absolute" },
-            leave: { width: 0 },
-            enter: ({ x }) => ({ x }),
+            from: { position: "absolute", opacity: 1 },
+            leave: { width: 0, opacity: 0 },
+            enter: ({ x }) => ({ x, opacity: 1 }),
             update: ({ x }) => ({ x }),
             key: (item: Player) => item?.id
         }
