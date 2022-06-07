@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useTransition, animated } from "react-spring";
 import { Player } from "interfaces/Player";
-import { PlayerSlot } from "../PlayerSlot";
-import { Notes } from "../Notes";
+import { PlayerSlot } from "components/PlayerSlot";
+import { Notes } from "components/Notes";
 import styles from "./styles.module.scss";
 
 interface PlayersProps {

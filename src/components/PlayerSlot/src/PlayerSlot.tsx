@@ -1,8 +1,8 @@
 import { Player } from "interfaces/Player";
 import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
-import { Editable } from "../Editable";
-import { PlayerImage } from "../PlayerImage";
+import { Editable } from "components/Editable";
+import { PlayerImage } from "components/PlayerImage";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import { ReactComponent as KickSvg } from "svg/kick.svg";
 import styles from "./styles.module.scss";

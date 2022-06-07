@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Player } from "./interfaces/Player";
 import { lobbyWs, openLobbyWs } from "./api";
 import { getUser, updateUser } from "./ls";
-import { Players } from "./components/Players";
-import { RollPlayers } from "./components/RollPlayers";
+import { Players } from "components/Players";
+import { RollPlayers } from "components/RollPlayers";
 import "./global.scss";
 
 function App() {

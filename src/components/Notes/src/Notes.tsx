@@ -1,5 +1,5 @@
 import { useEffect, useRef, MouseEvent } from "react";
-import debounce from "../utils/debounce";
+import debounce from "utils/debounce";
 import { getMemo, PosSize, updateMemo } from "ls";
 import styles from "./styles.module.scss";
 
