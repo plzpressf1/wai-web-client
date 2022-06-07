@@ -10,26 +10,18 @@ svg {
     fill: #4b4b4b;
 }
 
-.fs {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-}
-
 .memo {
     overflow: hidden;
 
     .header {
-        z-index: 1000;
+        //z-index: 1000;
         position: absolute;
         background-color: #495058;
         cursor: grabbing;
     }
 
     textarea {
-        z-index: 999;
+        //z-index: 999;
         position: absolute;
         padding: 5px;
         background-color: #303841;

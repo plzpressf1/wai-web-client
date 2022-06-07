@@ -1,6 +1,7 @@
 import { useEffect, useRef, MouseEvent } from "react";
 import debounce from "utils/debounce";
 import { getMemo, PosSize, updateMemo } from "ls";
+import { Modal } from "components/Modal";
 import styles from "./styles.module.scss";
 
 const numberToPixels = (num: number) => num === 0 ? "0" : `${num}px`;
@@ -113,11 +114,11 @@ export const Notes = ({ shutDown }: { shutDown: () => void }) => {
     };
 
     return (
-        <div className={`${styles.memo} ${styles.fs}`}>
-            <div
-                className={styles.fs}
-                onClick={closeMemo}
-            />
+        <Modal
+            onClose={closeMemo}
+            className={`${styles.memo}`}
+            opacity={0}
+        >
             <div
                 ref={headerRef}
                 className={styles.header}
@@ -129,6 +130,6 @@ export const Notes = ({ shutDown }: { shutDown: () => void }) => {
                 onChange={() => memoDebounce()}
                 onKeyUp={(e) => onKeyUp(e.key)}
             />
-        </div>
+        </Modal>
     );
 };
