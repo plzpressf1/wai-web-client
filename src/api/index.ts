@@ -1,5 +1,5 @@
 import openSocket, { Socket } from "socket.io-client";
-import { User } from "../ls";
+import { User } from "ls";
 
 export let lobbyWs: Socket;
 
