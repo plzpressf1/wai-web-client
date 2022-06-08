@@ -1,6 +1,7 @@
 import { Player } from "interfaces/Player";
 import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
+import { GameStore } from "stores/GameStore";
 import { Editable } from "components/Editable";
 import { PlayerImage } from "components/PlayerImage";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
@@ -59,7 +60,7 @@ export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlot
                 : <div className={styles.nameDetail}>
                     {player.connected
                         ? <PictureSvg onClick={onChangePicture}/>
-                        : <KickSvg onClick={onKickPlayer}/>
+                        : <>{!GameStore.state.started && <KickSvg onClick={onKickPlayer}/>}</>
                     }
                     <span>{name}</span>
                 </div>
