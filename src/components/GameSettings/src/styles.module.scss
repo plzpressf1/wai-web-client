@@ -1,0 +1,26 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: #303841;
+
+    h2 {
+        font-size: 28px;
+        color: #bfc5d0;
+        margin-bottom: 20px;
+    }
+}
+
+.option {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 22px;
+    color: #ccc;
+    &.active {
+        color: orange;
+    }
+}
