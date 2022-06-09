@@ -13,6 +13,7 @@ interface GameFlow {
 }
 
 function App() {
+    const [access, setAccess] = useState(false);
     const [players, setPlayers] = useState<Player[]>([]);
     const [gameFlow, setGameFlow] = useState<GameFlow>({ controls:[], timer: 0 });
 
@@ -31,12 +32,20 @@ function App() {
             lobbyWs.on("settings/list", (resp) => GameStore.setSettings(resp.settings));
             lobbyWs.on("state/list", (resp) => GameStore.setState(resp.state));
             lobbyWs.on("controls/list", (resp) => setGameFlow(resp));
+            lobbyWs.on("access", (resp) => setAccess(resp.access === "granted"));
 
             return () => {
                 lobbyWs.close();
             };
         }
     }, []);
+
+    if (!access) return (
+        <main>
+            <h2>Невозможно подключиться к игре</h2>
+            <p>Сервер недоступен или игра в режиме с таймером уже начата</p>
+        </main>
+    );
 
     if (players.length === gameFlow.controls.length) {
         for (let i = 0; i < players.length; i++) {

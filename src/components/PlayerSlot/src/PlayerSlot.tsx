@@ -1,6 +1,7 @@
-import { Player } from "interfaces/Player";
+import { observer } from "mobx-react";
 import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
+import { Player } from "interfaces/Player";
 import { GameStore } from "stores/GameStore";
 import { Editable } from "components/Editable";
 import { PlayerImage } from "components/PlayerImage";
@@ -15,7 +16,7 @@ interface PlayerSlotProps {
     setEditingNotes: (v: boolean) => void;
 }
 
-export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
+const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
     const me = getUser().id === player.id;
 
     const slotStyles = [styles.slot];
@@ -88,3 +89,5 @@ export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlot
         </div>
     );
 };
+
+export const PlayerSlot = observer(PlayerSlotComponent);

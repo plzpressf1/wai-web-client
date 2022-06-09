@@ -29,3 +29,14 @@ textarea {
     -moz-box-shadow: none;
     box-shadow: none;
 }
+
+// TODO: move into separated component
+main h2, main p {
+    text-align: center;
+}
+main h2 {
+    margin-top: 2rem;
+}
+main p {
+    margin-top: 1rem;
+}
