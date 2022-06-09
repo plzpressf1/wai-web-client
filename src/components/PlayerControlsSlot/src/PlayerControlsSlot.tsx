@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { lobbyWs } from "api";
 import { getUser } from "ls";
+import { printTime } from "utils/time";
 import { DecisionStatus, PlayerControls, QuestionStatus } from "interfaces/Player";
 import { ReactComponent as QuestionSvg } from "svg/question.svg";
 import { ReactComponent as YesSvg } from "svg/yes.svg";
@@ -25,13 +26,6 @@ const Questions = ({ questions }: { questions: QuestionStatus[] }) => {
 };
 
 const Timer = ({ time }: { time: number }) => {
-    const printTime = (t: number) => {
-        if (!t) return "";
-        const m = Math.floor(t / 60);
-        const seconds = t % 60;
-        const s = seconds >= 10 ? `${seconds}` : `0${seconds}`;
-        return `${m}:${s}`;
-    };
     return <div>{printTime(time)}</div>;
 }
 

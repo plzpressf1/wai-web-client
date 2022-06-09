@@ -4,11 +4,15 @@ import { lobbyWs } from "api";
 const defaultSettings: GameSettings = {
     timer: false,
     playerTime: 120,
+    questionsNumber: 3,
+    extraTime: 10,
 };
 
 export interface GameSettings {
     timer: boolean;
     playerTime: number; // player time to ask all questions in seconds
+    extraTime: number;
+    questionsNumber: number;
 }
 
 const defaultState: GameState = {
