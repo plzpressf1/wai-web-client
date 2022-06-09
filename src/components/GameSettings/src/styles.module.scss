@@ -1,0 +1,74 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+    padding: 40px;
+    border-radius: 10px;
+    background-color: #303841;
+
+    h2 {
+        font-size: 28px;
+        color: #bfc5d0;
+        margin-bottom: 20px;
+    }
+}
+
+.option {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 22px;
+    color: #ccc;
+
+    .controller {
+        width: 120px;
+    }
+
+    &.active {
+        color: orange;
+    }
+
+    sup {
+        font-size: 10px;
+        color: #d17575;
+    }
+}
+
+.number {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    font-size: 22px;
+    border-radius: 34px;
+    background-color: white;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+    .value {
+        text-align: center;
+    }
+    .plus, .minus {
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: orange;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        margin: 2px;
+    }
+    .plus::before {
+        content: "+";
+    }
+    .minus::before {
+        content: "-";
+    }
+}

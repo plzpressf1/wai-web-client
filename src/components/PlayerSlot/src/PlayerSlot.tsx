@@ -1,8 +1,10 @@
-import { Player } from "interfaces/Player";
+import { observer } from "mobx-react";
 import { lobbyWs } from "api";
 import { getUser, updateUser } from "ls";
-import { Editable } from "../Editable";
-import { PlayerImage } from "../PlayerImage";
+import { Player } from "interfaces/Player";
+import { GameStore } from "stores/GameStore";
+import { Editable } from "components/Editable";
+import { PlayerImage } from "components/PlayerImage";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import { ReactComponent as KickSvg } from "svg/kick.svg";
 import styles from "./styles.module.scss";
@@ -14,7 +16,7 @@ interface PlayerSlotProps {
     setEditingNotes: (v: boolean) => void;
 }
 
-export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
+const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
     const me = getUser().id === player.id;
 
     const slotStyles = [styles.slot];
@@ -59,7 +61,7 @@ export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlot
                 : <div className={styles.nameDetail}>
                     {player.connected
                         ? <PictureSvg onClick={onChangePicture}/>
-                        : <KickSvg onClick={onKickPlayer}/>
+                        : <>{!GameStore.state.started && <KickSvg onClick={onKickPlayer}/>}</>
                     }
                     <span>{name}</span>
                 </div>
@@ -87,3 +89,5 @@ export const PlayerSlot = ({ player, editingNotes, setEditingNotes }: PlayerSlot
         </div>
     );
 };
+
+export const PlayerSlot = observer(PlayerSlotComponent);

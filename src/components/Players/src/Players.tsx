@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import { observer } from "mobx-react";
 import { useTransition, animated } from "react-spring";
-import { Player } from "interfaces/Player";
-import { PlayerSlot } from "../PlayerSlot";
-import { Notes } from "../Notes";
+import { GameStore } from "stores/GameStore";
+import { Player, PlayerControls } from "interfaces/Player";
+import { PlayerSlot } from "components/PlayerSlot";
+import { PlayerControlsSlot } from "components/PlayerControlsSlot";
+import { Notes } from "components/Notes";
 import styles from "./styles.module.scss";
 
 interface PlayersProps {
     players: Player[];
+    controls: PlayerControls[];
+    timer: number;
 }
 
-export const Players = ({ players }: PlayersProps) => {
+const PlayersComponent = ({ players, controls, timer }: PlayersProps) => {
     const [editingNotes, setEditingNotes] = useState(false);
 
     const width = 220;
@@ -46,6 +51,21 @@ export const Players = ({ players }: PlayersProps) => {
                     </animated.div>
                 )}
             </div>
+            {GameStore.settings.timer && GameStore.state.started &&
+                <div className={styles.controls}>
+                    {
+                        controls.map((c, index) =>
+                            <PlayerControlsSlot
+                                key={index}
+                                controls={c}
+                                timer={timer}
+                            />
+                        )
+                    }
+                </div>
+            }
         </div>
     );
 };
+
+export const Players = observer(PlayersComponent);

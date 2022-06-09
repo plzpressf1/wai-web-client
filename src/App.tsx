@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Player } from "./interfaces/Player";
-import { lobbyWs, openLobbyWs } from "./api";
-import { getUser, updateUser } from "./ls";
-import { Players } from "./components/Players";
-import { RollPlayers } from "./components/RollPlayers";
+import { GameStore } from "stores/GameStore";
+import { lobbyWs, openLobbyWs } from "api";
+import { getUser, updateUser } from "ls";
+import { Player, PlayerControls } from "interfaces/Player";
+import { Players } from "components/Players";
+import { ControlButtons } from "components/ControlButtons";
 import "./global.scss";
 
+interface GameFlow {
+    controls: PlayerControls[];
+    timer: number;
+}
+
 function App() {
+    const [access, setAccess] = useState(false);
     const [players, setPlayers] = useState<Player[]>([]);
+    const [gameFlow, setGameFlow] = useState<GameFlow>({ controls:[], timer: 0 });
+
     useEffect(() => {
         const user = getUser();
         openLobbyWs(user);
@@ -20,6 +29,10 @@ function App() {
                 updateUser(user);
             });
             lobbyWs.on("player/list", (resp) => setPlayers(resp.players));
+            lobbyWs.on("settings/list", (resp) => GameStore.setSettings(resp.settings));
+            lobbyWs.on("state/list", (resp) => GameStore.setState(resp.state));
+            lobbyWs.on("controls/list", (resp) => setGameFlow(resp));
+            lobbyWs.on("access", (resp) => setAccess(resp.access === "granted"));
 
             return () => {
                 lobbyWs.close();
@@ -27,13 +40,29 @@ function App() {
         }
     }, []);
 
+    if (!access) return (
+        <main>
+            <h2>Невозможно подключиться к игре</h2>
+            <p>Сервер недоступен или игра в режиме с таймером уже начата</p>
+        </main>
+    );
+
+    if (players.length === gameFlow.controls.length) {
+        for (let i = 0; i < players.length; i++) {
+            gameFlow.controls[i].connected = players[i].connected;
+        }
+    }
     return (
         <>
             <header>
-                <RollPlayers/>
+                <ControlButtons/>
             </header>
             <main>
-                <Players players={players}/>
+                <Players
+                    players={players}
+                    controls={gameFlow.controls}
+                    timer={gameFlow.timer}
+                />
             </main>
         </>
     );
