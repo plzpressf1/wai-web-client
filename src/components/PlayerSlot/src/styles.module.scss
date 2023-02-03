@@ -42,16 +42,15 @@
 
 .nameDetail {
     display: flex;
-    gap: 10px;
     width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
 
     svg {
-        width: 23px;
-        height: 23px;
+        width: 26px;
+        height: 26px;
         fill: #ff7700;
         cursor: pointer;
-        margin-left: 12px;
-        position: absolute;
         background-color: #22262a;
     }
 

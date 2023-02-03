@@ -7,8 +7,9 @@ import { Editable } from "components/Editable";
 import { PlayerImage } from "components/PlayerImage";
 import { ReactComponent as PictureSvg } from "svg/picture.svg";
 import { ReactComponent as KickSvg } from "svg/kick.svg";
-import styles from "./styles.module.scss";
 import { ReactComponent as MemoSvg } from "svg/notes.svg";
+import { ReactComponent as CorrectSvg } from "svg/correct.svg";
+import styles from "./styles.module.scss";
 
 interface PlayerSlotProps {
     player: Player;
@@ -18,6 +19,7 @@ interface PlayerSlotProps {
 
 const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSlotProps) => {
     const me = getUser().id === player.id;
+    const correct = player.correct === "yes";
 
     const slotStyles = [styles.slot];
     if (!me && !player.connected) slotStyles.push(styles.disconnected);
@@ -60,15 +62,16 @@ const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSl
                 />
                 : <div className={styles.nameDetail}>
                     {player.connected
-                        ? <PictureSvg onClick={onChangePicture}/>
+                        ? <PictureSvg onClick={onChangePicture} />
                         : <>{!GameStore.state.started && <KickSvg onClick={onKickPlayer}/>}</>
                     }
                     <span>{name}</span>
+                    <CorrectSvg onClick={() => onUpdate("correct", "yes")} />
                 </div>
             }
             </span>
             <span className={secretStyles.join(" ")}>
-                {!me && <>
+                {(!me || correct) && <>
                     {player.connected
                         ? <Editable
                             value={secret}
@@ -79,7 +82,7 @@ const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSl
                 </>}
             </span>
             <div className={styles.image}>
-                {me
+                {(me && !correct)
                     ? <div className={styles.notes}>
                         {!editingNotes && <MemoSvg onClick={() => setEditingNotes(true)} />}
                     </div>

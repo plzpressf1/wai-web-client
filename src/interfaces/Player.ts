@@ -3,6 +3,7 @@ export interface Player {
     name: string;
     secret: string;
     picture: string;
+    correct: string;
     connected: boolean;
 }
 
