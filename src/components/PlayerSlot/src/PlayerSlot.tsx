@@ -73,10 +73,15 @@ const PlayerSlotComponent = ({ player, editingNotes, setEditingNotes }: PlayerSl
             <span className={secretStyles.join(" ")}>
                 {(!me || correct) && <>
                     {player.connected
-                        ? <Editable
-                            value={secret}
-                            onUpdate={(value) => onUpdate("secret", value)}
-                        />
+                        ? <>
+                            {me ?
+                                <span>{secret}</span>
+                                : <Editable
+                                    value={secret}
+                                    onUpdate={(value) => onUpdate("secret", value)}
+                                />
+                            }
+                        </>
                         : <span>не в сети</span>
                     }
                 </>}
